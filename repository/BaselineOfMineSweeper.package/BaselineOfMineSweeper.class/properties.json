@@ -1,0 +1,14 @@
+{
+	"category" : "BaselineOfMineSweeper",
+	"classinstvars" : [
+		 ],
+	"classvars" : [
+		 ],
+	"commentStamp" : "",
+	"instvars" : [
+		 ],
+	"name" : "BaselineOfMineSweeper",
+	"pools" : [
+		 ],
+	"super" : "BaselineOf",
+	"type" : "normal" }
