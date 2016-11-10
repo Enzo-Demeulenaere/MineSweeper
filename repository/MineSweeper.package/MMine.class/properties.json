@@ -1,0 +1,14 @@
+{
+	"category" : "MineSweeper",
+	"classinstvars" : [
+		 ],
+	"classvars" : [
+		 ],
+	"commentStamp" : "JulienDelplanque 10/27/2016 18:50",
+	"instvars" : [
+		 ],
+	"name" : "MMine",
+	"pools" : [
+		 ],
+	"super" : "MBox",
+	"type" : "normal" }

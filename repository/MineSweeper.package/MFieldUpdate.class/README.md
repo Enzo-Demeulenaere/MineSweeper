@@ -1,0 +1,1 @@
+I announce an update of the mine field.

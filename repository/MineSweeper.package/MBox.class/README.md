@@ -1,0 +1,1 @@
+I am an abstract box held by the mine field.

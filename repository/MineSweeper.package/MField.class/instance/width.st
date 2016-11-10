@@ -1,0 +1,3 @@
+accessing
+width
+	^ matrix numberOfRows

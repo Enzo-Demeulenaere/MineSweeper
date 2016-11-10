@@ -1,0 +1,16 @@
+{
+	"category" : "MineSweeper",
+	"classinstvars" : [
+		 ],
+	"classvars" : [
+		 ],
+	"commentStamp" : "JulienDelplanque 10/27/2016 22:28",
+	"instvars" : [
+		"matrix",
+		"round",
+		"announcer" ],
+	"name" : "MField",
+	"pools" : [
+		 ],
+	"super" : "Object",
+	"type" : "normal" }

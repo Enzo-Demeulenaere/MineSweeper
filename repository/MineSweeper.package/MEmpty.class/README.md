@@ -1,0 +1,1 @@
+I am an empty box in the mine field.

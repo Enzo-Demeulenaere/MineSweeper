@@ -1,0 +1,1 @@
+I announce the fact that the player loose.
