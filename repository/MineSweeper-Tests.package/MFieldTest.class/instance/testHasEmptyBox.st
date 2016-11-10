@@ -7,5 +7,10 @@ testHasEmptyBox
 		clickOnBoxAt: 5 at: 1;
 		clickOnBoxAt: 5 at: 4;
 		clickOnBoxAt: 4 at: 1;
-		clickOnBoxAt: 2 at: 1.
+		clickOnBoxAt: 2 at: 1;
+		clickOnBoxAt: 5 at: 5;
+		clickOnBoxAt: 4 at: 2;
+		clickOnBoxAt: 4 at: 3;
+		clickOnBoxAt: 5 at: 2;
+		clickOnBoxAt: 5 at: 3.
 	self deny: field hasEmptyBox.
