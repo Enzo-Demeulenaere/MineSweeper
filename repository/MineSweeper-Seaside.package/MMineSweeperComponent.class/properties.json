@@ -1,0 +1,16 @@
+{
+	"category" : "MineSweeper-Seaside",
+	"classinstvars" : [
+		 ],
+	"classvars" : [
+		 ],
+	"commentStamp" : "",
+	"instvars" : [
+		"field",
+		"gameEnded",
+		"playerWon" ],
+	"name" : "MMineSweeperComponent",
+	"pools" : [
+		 ],
+	"super" : "WAComponent",
+	"type" : "normal" }
