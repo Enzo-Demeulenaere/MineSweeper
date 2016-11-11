@@ -12,5 +12,5 @@
 	"name" : "MField",
 	"pools" : [
 		 ],
-	"super" : "Object",
+	"super" : "MVisitableObject",
 	"type" : "normal" }

@@ -4,11 +4,11 @@
 		 ],
 	"classvars" : [
 		 ],
-	"commentStamp" : "JulienDelplanque 10/27/2016 18:49",
+	"commentStamp" : "JulienDelplanque 11/11/2016 14:48",
 	"instvars" : [
 		 ],
-	"name" : "MBox",
+	"name" : "MFieldVisitor",
 	"pools" : [
 		 ],
-	"super" : "MVisitableObject",
+	"super" : "Object",
 	"type" : "normal" }
