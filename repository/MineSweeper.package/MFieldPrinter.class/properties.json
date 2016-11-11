@@ -1,0 +1,16 @@
+{
+	"category" : "MineSweeper",
+	"classinstvars" : [
+		 ],
+	"classvars" : [
+		 ],
+	"commentStamp" : "JulienDelplanque 11/11/2016 15:27",
+	"instvars" : [
+		"field",
+		"currentRow",
+		"currentColumn" ],
+	"name" : "MFieldPrinter",
+	"pools" : [
+		 ],
+	"super" : "MStreamExporter",
+	"type" : "normal" }

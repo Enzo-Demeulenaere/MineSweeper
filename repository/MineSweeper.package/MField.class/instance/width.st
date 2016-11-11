@@ -1,3 +1,3 @@
 accessing
 width
-	^ matrix numberOfRows
+	^ matrix numberOfColumns

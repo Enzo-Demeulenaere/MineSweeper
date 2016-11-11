@@ -5,8 +5,8 @@ boxesAroundBoxAt: x at: y doWithIndexes: aBlock
 				((i = x and: [ j = y ])
 					or: [ i < 1
 					or: [ j < 1
-					or: [ i > self width
-					or: [ j > self height ] ] ] 
+					or: [ i > self height
+					or: [ j > self width ] ] ] 
 				])
 					ifFalse: [ 
 						aBlock
