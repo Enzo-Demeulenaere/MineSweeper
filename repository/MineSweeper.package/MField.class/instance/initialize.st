@@ -2,4 +2,6 @@ initialization
 initialize
 	super initialize.
 	round := 0.
-	announcer := Announcer new
+	announcer := Announcer new.
+	gameEnded := false.
+	playerWon := false

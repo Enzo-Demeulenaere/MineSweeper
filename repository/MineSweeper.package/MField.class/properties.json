@@ -8,6 +8,8 @@
 	"instvars" : [
 		"matrix",
 		"round",
+		"gameEnded",
+		"playerWon",
 		"announcer" ],
 	"name" : "MField",
 	"pools" : [
