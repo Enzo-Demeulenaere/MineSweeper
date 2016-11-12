@@ -1,0 +1,17 @@
+{
+	"category" : "MineSweeper-Seaside",
+	"classinstvars" : [
+		 ],
+	"classvars" : [
+		 ],
+	"commentStamp" : "",
+	"instvars" : [
+		"htmlRenderer",
+		"field",
+		"currentRow",
+		"currentColumn" ],
+	"name" : "MOnHtmlExporter",
+	"pools" : [
+		 ],
+	"super" : "MFieldVisitor",
+	"type" : "normal" }
