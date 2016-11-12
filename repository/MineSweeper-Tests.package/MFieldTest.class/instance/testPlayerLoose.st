@@ -5,4 +5,6 @@ testPlayerLoose
 	field announcer when: MPlayerLoose do: [ loose := true ].
 	field clickOnBoxAt: 1 at: 3.
 	
-	self assert: loose.
+	self
+		assert: loose;
+		assert: field playerLost.
