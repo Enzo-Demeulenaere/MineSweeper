@@ -1,0 +1,3 @@
+visiting
+visitMMine: aMMMine
+	^ $o

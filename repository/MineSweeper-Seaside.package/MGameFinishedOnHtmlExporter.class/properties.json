@@ -4,11 +4,11 @@
 		 ],
 	"classvars" : [
 		 ],
-	"commentStamp" : "JulienDelplanque 11/12/2016 16:16",
+	"commentStamp" : "JulienDelplanque 11/12/2016 15:59",
 	"instvars" : [
-		"field" ],
-	"name" : "MMineSweeperComponent",
+		 ],
+	"name" : "MGameFinishedOnHtmlExporter",
 	"pools" : [
 		 ],
-	"super" : "WAComponent",
+	"super" : "MOnHtmlExporter",
 	"type" : "normal" }
