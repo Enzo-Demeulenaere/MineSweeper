@@ -1,5 +1,4 @@
-# MineSweeper
-[![Build Status](https://travis-ci.org/juliendelplanque/MineSweeper.svg?branch=master)](https://travis-ci.org/juliendelplanque/MineSweeper)
+# MineSweeper [![Build Status](https://travis-ci.org/juliendelplanque/MineSweeper.svg?branch=master)](https://travis-ci.org/juliendelplanque/MineSweeper)
 A Mine Sweeper game implementation in Pharo.
 
 # How to install
