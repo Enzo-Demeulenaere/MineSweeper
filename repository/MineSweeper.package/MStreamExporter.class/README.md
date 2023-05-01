@@ -1,1 +1,0 @@
-I am an abstract visitor exporting the MField on the stream in #writeStream instance variable.

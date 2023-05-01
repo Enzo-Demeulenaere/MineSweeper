@@ -1,1 +1,0 @@
-I am a MineSweeper root component for Seaside.

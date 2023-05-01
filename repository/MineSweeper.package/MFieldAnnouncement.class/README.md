@@ -1,1 +1,0 @@
-I am an abstract announcement from a mine field.

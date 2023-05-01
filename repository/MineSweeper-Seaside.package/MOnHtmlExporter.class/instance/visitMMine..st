@@ -1,3 +1,0 @@
-visiting
-visitMMine: aMMMine
-	^ $*

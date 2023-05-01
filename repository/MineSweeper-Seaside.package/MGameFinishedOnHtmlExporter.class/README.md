@@ -1,1 +1,0 @@
-I render the MField on an html renderer when the game is finished.
