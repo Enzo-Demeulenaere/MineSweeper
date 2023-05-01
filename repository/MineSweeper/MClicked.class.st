@@ -1,10 +1,10 @@
 "
-I am an empty box in the mine field that has already be clicked.
+I am an empty box in the mine field that has already been clicked.
 "
 Class {
 	#name : #MClicked,
 	#superclass : #MBox,
-	#category : 'MineSweeper-Core'
+	#category : #'MineSweeper-Core'
 }
 
 { #category : #visiting }

@@ -9,7 +9,7 @@ Class {
 		'currentRow',
 		'currentColumn'
 	],
-	#category : 'MineSweeper-Visitors'
+	#category : #'MineSweeper-Visitors'
 }
 
 { #category : #initialization }
@@ -30,11 +30,6 @@ MFieldPrinter >> visitMClicked: aMClicked [
 ]
 
 { #category : #visiting }
-MFieldPrinter >> visitMEmpty: aMEmpty [
-	self writeStream << $*
-]
-
-{ #category : #visiting }
 MFieldPrinter >> visitMField: aMField [
 	field := aMField.
 	aMField boxesDoWithIndices: [ :box :row :column |
@@ -48,5 +43,10 @@ MFieldPrinter >> visitMField: aMField [
 
 { #category : #visiting }
 MFieldPrinter >> visitMMine: aMMine [
+	self writeStream << $*
+]
+
+{ #category : #visiting }
+MFieldPrinter >> visitMUnknown: aMEmpty [
 	self writeStream << $*
 ]

@@ -4,17 +4,12 @@ I am an abstract box held by the mine field.
 Class {
 	#name : #MBox,
 	#superclass : #MVisitableObject,
-	#category : 'MineSweeper-Core'
+	#category : #'MineSweeper-Core'
 }
 
 { #category : #'subclass instance creation' }
 MBox class >> clicked [
 	^ MClicked new
-]
-
-{ #category : #'subclass instance creation' }
-MBox class >> empty [
-	^ MEmpty new
 ]
 
 { #category : #'subclass instance creation' }
@@ -26,7 +21,12 @@ MBox class >> mine [
 MBox class >> randomCase [
 	^ (1 to: 10) atRandom > 9
 			ifTrue: [ self mine ]
-			ifFalse: [ self empty ].
+			ifFalse: [ self unknown ].
+]
+
+{ #category : #'subclass instance creation' }
+MBox class >> unknown [
+	^ MUnknown new
 ]
 
 { #category : #clicking }
@@ -40,11 +40,11 @@ MBox >> isClickedBox [
 ]
 
 { #category : #testing }
-MBox >> isEmptyBox [
+MBox >> isMineBox [
 	^ false
 ]
 
 { #category : #testing }
-MBox >> isMineBox [
+MBox >> isUnknownBox [
 	^ false
 ]

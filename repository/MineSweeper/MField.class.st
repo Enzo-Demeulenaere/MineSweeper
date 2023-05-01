@@ -15,7 +15,7 @@ Class {
 		'playerWon',
 		'announcer'
 	],
-	#category : 'MineSweeper-Core'
+	#category : #'MineSweeper-Core'
 }
 
 { #category : #'instance creation' }
@@ -147,13 +147,13 @@ MField >> hasClickedBoxAroundBoxAt: x at: y [
 ]
 
 { #category : #testing }
-MField >> hasEmptyBox [
-	^ self anyBoxSatisfy: #isEmptyBox
+MField >> hasMineBoxAroundBoxAt: x at: y [
+	^ (self mineCountAroundBoxAt: x at: y) > 0
 ]
 
 { #category : #testing }
-MField >> hasMineBoxAroundBoxAt: x at: y [
-	^ (self mineCountAroundBoxAt: x at: y) > 0
+MField >> hasUnknownBox [
+	^ self anyBoxSatisfy: #isUnknownBox
 ]
 
 { #category : #accessing }
@@ -240,7 +240,7 @@ MField >> readableTextualRepresentation [
 ]
 
 { #category : #'box api' }
-MField >> replaceCaseAtRow: x column: y by: aMBox [
+MField >> replaceBoxAtRow: x column: y by: aMBox [
 	matrix at: x at: y put: aMBox
 ]
 

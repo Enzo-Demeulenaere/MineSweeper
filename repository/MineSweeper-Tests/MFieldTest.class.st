@@ -9,7 +9,7 @@ Class {
 	#instVars : [
 		'field'
 	],
-	#category : 'MineSweeper-Tests'
+	#category : #'MineSweeper-Tests'
 }
 
 { #category : #running }
@@ -20,31 +20,31 @@ MFieldTest >> setUp [
 { #category : #'tests-accessing' }
 MFieldTest >> testBoxAtAt [
 	self
-		assert: (field boxAt: 1 at: 1) isEmptyBox;
-		assert: (field boxAt: 1 at: 2) isEmptyBox;
+		assert: (field boxAt: 1 at: 1) isUnknownBox;
+		assert: (field boxAt: 1 at: 2) isUnknownBox;
 		assert: (field boxAt: 1 at: 3) isMineBox;
-		assert: (field boxAt: 1 at: 4) isEmptyBox;
-		assert: (field boxAt: 1 at: 5) isEmptyBox;
-		assert: (field boxAt: 2 at: 1) isEmptyBox;
-		assert: (field boxAt: 2 at: 2) isEmptyBox;
+		assert: (field boxAt: 1 at: 4) isUnknownBox;
+		assert: (field boxAt: 1 at: 5) isUnknownBox;
+		assert: (field boxAt: 2 at: 1) isUnknownBox;
+		assert: (field boxAt: 2 at: 2) isUnknownBox;
 		assert: (field boxAt: 2 at: 3) isMineBox;
-		assert: (field boxAt: 2 at: 4) isEmptyBox;
-		assert: (field boxAt: 2 at: 5) isEmptyBox;
+		assert: (field boxAt: 2 at: 4) isUnknownBox;
+		assert: (field boxAt: 2 at: 5) isUnknownBox;
 		assert: (field boxAt: 3 at: 1) isMineBox;
 		assert: (field boxAt: 3 at: 2) isMineBox;
 		assert: (field boxAt: 3 at: 3) isMineBox;
-		assert: (field boxAt: 3 at: 4) isEmptyBox;
-		assert: (field boxAt: 3 at: 5) isEmptyBox;
-		assert: (field boxAt: 4 at: 1) isEmptyBox;
-		assert: (field boxAt: 4 at: 2) isEmptyBox;
-		assert: (field boxAt: 4 at: 3) isEmptyBox;
+		assert: (field boxAt: 3 at: 4) isUnknownBox;
+		assert: (field boxAt: 3 at: 5) isUnknownBox;
+		assert: (field boxAt: 4 at: 1) isUnknownBox;
+		assert: (field boxAt: 4 at: 2) isUnknownBox;
+		assert: (field boxAt: 4 at: 3) isUnknownBox;
 		assert: (field boxAt: 4 at: 4) isMineBox;
 		assert: (field boxAt: 4 at: 5) isMineBox;
 		assert: (field boxAt: 5 at: 1) isMineBox;
-		assert: (field boxAt: 5 at: 2) isEmptyBox;
-		assert: (field boxAt: 5 at: 3) isEmptyBox;
-		assert: (field boxAt: 5 at: 4) isEmptyBox;
-		assert: (field boxAt: 5 at: 5) isEmptyBox
+		assert: (field boxAt: 5 at: 2) isUnknownBox;
+		assert: (field boxAt: 5 at: 3) isUnknownBox;
+		assert: (field boxAt: 5 at: 4) isUnknownBox;
+		assert: (field boxAt: 5 at: 5) isUnknownBox
 ]
 
 { #category : #'tests-enumerating' }
@@ -91,7 +91,7 @@ MFieldTest >> testHasClickedBoxAroundBoxAtAt [
 
 { #category : #'tests-testing' }
 MFieldTest >> testHasEmptyBox [
-	self assert: field hasEmptyBox.
+	self assert: field hasUnknownBox.
 	field
 		clickOnBoxAt: 1 at: 1;
 		clickOnBoxAt: 1 at: 5;
@@ -102,7 +102,7 @@ MFieldTest >> testHasEmptyBox [
 		clickOnBoxAt: 5 at: 3;
 		clickOnBoxAt: 5 at: 4;
 		clickOnBoxAt: 5 at: 5.
-	self deny: field hasEmptyBox.
+	self deny: field hasUnknownBox.
 ]
 
 { #category : #'tests-accessing' }
@@ -177,7 +177,7 @@ MFieldTest >> testReplaceCaseAtRowColumnBy [
 	| actual new |
 	actual := field boxAt: 2 at: 2.
 	new := MBox clicked.
-	field replaceCaseAtRow: 2 column: 2 by: new.
+	field replaceBoxAtRow: 2 column: 2 by: new.
 	self
 		assert: (field boxAt: 2 at: 2) ~= actual;
 		assert: (field boxAt: 2 at: 2) equals: new
