@@ -173,7 +173,7 @@ MFieldTest >> testPlayerWin [
 ]
 
 { #category : #'tests-box api' }
-MFieldTest >> testReplaceCaseAtRowColumnBy [
+MFieldTest >> testReplaceBoxAtRowColumnBy [
 	| actual new |
 	actual := field boxAt: 2 at: 2.
 	new := MBox clicked.
