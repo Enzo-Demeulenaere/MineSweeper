@@ -90,7 +90,7 @@ MFieldTest >> testHasClickedBoxAroundBoxAtAt [
 ]
 
 { #category : #'tests-testing' }
-MFieldTest >> testHasEmptyBox [
+MFieldTest >> testHasUnknownBox [
 	self assert: field hasUnknownBox.
 	field
 		clickOnBoxAt: 1 at: 1;
