@@ -7,7 +7,7 @@ To install only the core of the game and the unit tests:
 ```
 Metacello new
     baseline:'MineSweeper';
-    repository: 'github://juliendelplanque/MineSweeper:master/repository';
+    repository: 'github://Enzo-Demeulenaere/MineSweeper:master/repository';
     load: 'core'
 ```
 
@@ -16,7 +16,7 @@ To install the game with its minimal web-frontend:
 ```
 Metacello new
     baseline:'MineSweeper';
-    repository: 'github://juliendelplanque/MineSweeper:master/repository';
+    repository: 'github://Enzo-Demeulenaere/MineSweeper:master/repository';
     load: 'seaside'
 ```
 
