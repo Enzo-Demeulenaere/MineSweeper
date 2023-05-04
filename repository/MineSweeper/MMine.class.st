@@ -5,7 +5,7 @@ If I am clicked by the player, he dies.
 Class {
 	#name : #MMine,
 	#superclass : #MBox,
-	#category : 'MineSweeper-Core'
+	#category : #'MineSweeper-Core'
 }
 
 { #category : #visiting }
@@ -15,7 +15,8 @@ MMine >> accept: aMFieldVisitor [
 
 { #category : #clicking }
 MMine >> clickIn: aMField at: x at: y [
-	aMField playerLoose
+	aMField gameEnded  
+		ifFalse: [ aMField playerLoose]
 ]
 
 { #category : #testing }

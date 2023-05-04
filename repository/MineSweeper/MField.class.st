@@ -20,8 +20,6 @@ Class {
 
 { #category : #'as yet unclassified' }
 MField class >> MatrixTest5x5 [ 
-	|announcer|
-	announcer:= MBoxClickedAnnouncement new.
 	^ self matrix: ((Array2D rows: 5 columns: 5) collect: [ :e | MBox randomCase ])
 ]
 
@@ -30,6 +28,37 @@ MField class >> matrix: aMatrix [
 	^ self new
 		matrix: aMatrix;
 		yourself
+]
+
+{ #category : #'test ressources' }
+MField class >> matrixForField [
+	^ self matrix: ((Array2D rows: 5 columns: 5)
+			at: 1 at: 1 put: MBox unknown;
+			at: 1 at: 2 put: MBox unknown;
+			at: 1 at: 3 put: MBox mine;
+			at: 1 at: 4 put: MBox unknown;
+			at: 1 at: 5 put: MBox unknown;
+			at: 2 at: 1 put: MBox unknown;
+			at: 2 at: 2 put: MBox unknown;
+			at: 2 at: 3 put: MBox mine;
+			at: 2 at: 4 put: MBox unknown;
+			at: 2 at: 5 put: MBox unknown;
+			at: 3 at: 1 put: MBox mine;
+			at: 3 at: 2 put: MBox mine;
+			at: 3 at: 3 put: MBox mine;
+			at: 3 at: 4 put: MBox unknown;
+			at: 3 at: 5 put: MBox unknown;
+			at: 4 at: 1 put: MBox unknown;
+			at: 4 at: 2 put: MBox unknown;
+			at: 4 at: 3 put: MBox unknown;
+			at: 4 at: 4 put: MBox mine;
+			at: 4 at: 5 put: MBox mine;
+			at: 5 at: 1 put: MBox mine;
+			at: 5 at: 2 put: MBox unknown;
+			at: 5 at: 3 put: MBox unknown;
+			at: 5 at: 4 put: MBox unknown;
+			at: 5 at: 5 put: MBox unknown;
+			yourself)
 ]
 
 { #category : #'instance creation' }
@@ -209,7 +238,11 @@ MField >> mineCountAroundBoxAt: x at: y [
 MField >> playerLoose [
 	playerWon := false.
 	gameEnded := true.
-	self announcer announce: (MPlayerLoose field: self)
+	self announcer announce: (MPlayerLoose field: self).
+	
+	self boxesDoWithIndices: [ :aBox :i :j | aBox announcer announce: (MBoxClickedAnnouncement new).  ] .
+	
+	Transcript clear; show: 'Defaite'; open
 ]
 
 { #category : #accessing }
@@ -221,7 +254,8 @@ MField >> playerLost [
 MField >> playerWin [
 	playerWon := true.
 	gameEnded := true.
-	self announcer announce: (MPlayerWin field: self)
+	self announcer announce: (MPlayerWin field: self).
+	Transcript clear; show: 'Victoire'; open
 ]
 
 { #category : #accessing }

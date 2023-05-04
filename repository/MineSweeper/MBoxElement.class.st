@@ -5,62 +5,24 @@ Class {
 		'box',
 		'field',
 		'size',
-		'clicked'
+		'clicked',
+		'text'
 	],
 	#category : #'MineSweeper-Elements'
 }
 
 { #category : #'as yet unclassified' }
-MBoxElement >> aeDrawClickedSideOn: aeCanvas [ 
-	"Draw card's flipped side on an Alexandrie canvas"
-
-	| aFTFace cairoScaledFont cairoGlyphsArray baseline boxPosX boxPosY |
-	aFTFace := AeFontManager globalInstance
-		detectFamilyName: 'Source Sans Pro'
-		slant: AeFontSlant normal
-		weight: AeFontWeight normal
-		stretch: AeFontStretch normal
-		ifNone: [ AeFontManager globalInstance defaultFace ].
-	cairoScaledFont := aeCanvas
-		scaledFontForFace: aFTFace
-		size: 50.
-
-	boxPosX := (self box position x) //50 +1.
-	boxPosY := (self box position y) //50 +1.
-	cairoGlyphsArray := cairoScaledFont glyphArrayForString: (self field mineCountAroundBoxAt: boxPosX  at: boxPosY).
-
-	aeCanvas
-		textExtentsFor: cairoGlyphsArray
-		scaledFont: cairoScaledFont
-		do: [ :aTextExtents |
-			"Calculate the baseline required to center the 
-			symbol, both horizontally and vertically:"
-			baseline := ((self extent
-				- (aTextExtents width @ aTextExtents height)) / 2.0)
-				- (aTextExtents bearingX @ aTextExtents bearingY) ].
-
-	aeCanvas restoreContextAfter: [ 
-		aeCanvas pathTranslate: baseline.
-		aeCanvas setSourceColor: Color blue.
-		aeCanvas drawText: cairoGlyphsArray font: cairoScaledFont ].
-
-]
-
-{ #category : #'as yet unclassified' }
-MBoxElement >> aeDrawGeometryOn: aeCanvas [
+MBoxElement >> aeDrawGeometryOn2: aeCanvas [
 	"Draw this card on an Alexandrie canvas"
 
-	aeCanvas
+	"aeCanvas
 		pathFactory: [ :cairoContext |
 			cairoContext
 				roundedRectangleTo: self size
 				radius: 2];
 		setBackgroundWith: [
 			aeCanvas setSourceColor: self backgroundPaint ];
-		drawFigureAndPrepareToClip.
-		
-	self box isClickedBox 
-		ifTrue: [ self aeDrawClickedSideOn: aeCanvas  ]
+		drawFigureAndPrepareToClip."
 ]
 
 { #category : #'as yet unclassified' }
@@ -77,17 +39,24 @@ MBoxElement >> box [
 MBoxElement >> box: aMBox [	
 	box:= aMBox.
 	
-	box announcer when: MBoxClickedAnnouncement send: #disappear to: self 
+	box announcer when: MBoxClickedAnnouncement send: #click to: self 
 ]
 
 { #category : #public }
 MBoxElement >> click [ 
-	clicked:= true
-]
-
-{ #category : #'as yet unclassified' }
-MBoxElement >> disappear [ 
-	self visibility: BlVisibility hidden
+	| boxPosX boxPosY |
+	clicked:= true.
+	self background: Color transparent.
+	
+	boxPosX := (self position x) //50 +1.
+	boxPosY := (self position y) //50 +1.
+	(self box isMineBox)
+			ifTrue: [ text text: 'M' asRopedText. ]
+			ifFalse: [text text: (self field mineCountAroundBoxAt: boxPosY  at: boxPosX) asString asRopedText ].
+	
+	
+	text text fontSize: 50.
+	text text fontName: 'Source Sans Pro'.
 ]
 
 { #category : #accessing }
@@ -103,8 +72,19 @@ MBoxElement >> field: aMField [
 { #category : #initialization }
 MBoxElement >> initialize [ 
 	super initialize.
+	self background: self backgroundPaint.
+	self geometry: (BlRoundedRectangleGeometry cornerRadius: 5).
 	self size: 48.
 	
+	text := BlTextElement new.
+	self addChild: text.
+	text text: '' asRopedText.
+	self layout: BlFrameLayout new.
+	text constraintsDo: [ :c | 
+		c frame vertical alignCenter.
+		c frame horizontal alignCenter ].
+	
+	"self margin: (BlInsets top: 2 left: 2 bottom: 2 right: 2 ). "
 ]
 
 { #category : #testing }
