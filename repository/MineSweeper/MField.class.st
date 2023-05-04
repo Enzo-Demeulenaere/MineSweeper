@@ -18,6 +18,13 @@ Class {
 	#category : #'MineSweeper-Core'
 }
 
+{ #category : #'as yet unclassified' }
+MField class >> MatrixTest5x5 [ 
+	|announcer|
+	announcer:= MBoxClickedAnnouncement new.
+	^ self matrix: ((Array2D rows: 5 columns: 5) collect: [ :e | MBox randomCase ])
+]
+
 { #category : #'instance creation' }
 MField class >> matrix: aMatrix [
 	^ self new
@@ -173,6 +180,11 @@ MField >> initialize [
 	announcer := Announcer new.
 	gameEnded := false.
 	playerWon := false
+]
+
+{ #category : #accessing }
+MField >> matrix [ 
+	^ matrix
 ]
 
 { #category : #'private - accessing' }

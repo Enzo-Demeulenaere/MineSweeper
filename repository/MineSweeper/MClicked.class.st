@@ -15,6 +15,7 @@ MClicked >> accept: aMFieldVisitor [
 { #category : #clicking }
 MClicked >> clickIn: aMField at: x at: y [
 	"Nothing to be done, player should click somewhere else..."
+	Transcript show: 'Bonjour je suis cliqué'; cr
 ]
 
 { #category : #testing }

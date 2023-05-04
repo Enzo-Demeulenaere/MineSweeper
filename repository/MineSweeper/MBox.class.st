@@ -4,6 +4,9 @@ I am an abstract box held by the mine field.
 Class {
 	#name : #MBox,
 	#superclass : #MVisitableObject,
+	#instVars : [
+		'announcer'
+	],
 	#category : #'MineSweeper-Core'
 }
 
@@ -27,6 +30,11 @@ MBox class >> randomCase [
 { #category : #'subclass instance creation' }
 MBox class >> unknown [
 	^ MUnknown new
+]
+
+{ #category : #accessing }
+MBox >> announcer [ 
+	^ announcer ifNil: [ announcer := Announcer new ]
 ]
 
 { #category : #clicking }
