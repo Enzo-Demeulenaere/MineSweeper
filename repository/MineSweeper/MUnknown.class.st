@@ -47,5 +47,5 @@ MUnknown >> propagateClickIn: aMField at: x at: y [
 				box isClickedBox ifFalse: [ 
 					(aMField boxAt: i at: j ) clickIn: aMField  at: i at: j.
 "					aMField replaceBoxAtRow: i column: j by: MClicked new."
-					self propagateClickIn: aMField at: i at: j ] ] ]
+"					self propagateClickIn: aMField at: i at: j "] ] ]
 ]

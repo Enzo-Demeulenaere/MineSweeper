@@ -3,13 +3,11 @@ A MMineTest is a test class for testing the behavior of MMine
 "
 Class {
 	#name : #MMineTest,
-	#superclass : #TestCase,
-	#traits : 'MTestResources',
-	#classTraits : 'MTestResources classTrait',
+	#superclass : #MAbstractTest,
 	#instVars : [
 		'field'
 	],
-	#category : 'MineSweeper-Tests'
+	#category : #'MineSweeper-Tests'
 }
 
 { #category : #running }

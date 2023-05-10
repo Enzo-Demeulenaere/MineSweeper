@@ -1,13 +1,11 @@
-"
-Resources for tests.
-"
-Trait {
-	#name : #MTestResources,
+Class {
+	#name : #MAbstractTest,
+	#superclass : #TestCase,
 	#category : #'MineSweeper-Tests'
 }
 
 { #category : #'test ressources' }
-MTestResources >> matrixForField [
+MAbstractTest >> matrixForField [
 	^ (Array2D rows: 5 columns: 5)
 			at: 1 at: 1 put: MBox unknown;
 			at: 1 at: 2 put: MBox unknown;

@@ -3,9 +3,7 @@ A MEmptyTest is a test class for testing the behavior of MEmpty
 "
 Class {
 	#name : #MUnknownTest,
-	#superclass : #TestCase,
-	#traits : 'MTestResources',
-	#classTraits : 'MTestResources classTrait',
+	#superclass : #MAbstractTest,
 	#instVars : [
 		'field'
 	],

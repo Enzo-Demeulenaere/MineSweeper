@@ -22,7 +22,7 @@ MBoxElement >> box [
 
 { #category : #accessing }
 MBoxElement >> box: aMBox [	
-	box:= aMBox.
+	box := aMBox.
 	
 	box announcer when: MBoxClickedAnnouncement send: #click to: self.
 	box announcer when: MBoxFlaggedAnnouncement send: #flag to: self.
@@ -33,7 +33,7 @@ MBoxElement >> box: aMBox [
 MBoxElement >> click [ 
 	| boxPosX boxPosY |
 	
-	self box isFlagged ifTrue: [ ^self ].
+	self box isFlagged ifTrue: [ self field gameEnded ifFalse: [^self] ].
 		 
 	self background: Color transparent.
 	

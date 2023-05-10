@@ -3,13 +3,11 @@ A MClickedTest is a test class for testing the behavior of MClicked
 "
 Class {
 	#name : #MClickedTest,
-	#superclass : #TestCase,
-	#traits : 'MTestResources',
-	#classTraits : 'MTestResources classTrait',
+	#superclass : #MAbstractTest,
 	#instVars : [
 		'field'
 	],
-	#category : 'MineSweeper-Tests'
+	#category : #'MineSweeper-Tests'
 }
 
 { #category : #running }

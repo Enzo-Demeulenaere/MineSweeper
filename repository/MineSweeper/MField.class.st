@@ -264,6 +264,7 @@ MField >> playerWin [
 	gameEnded := true.
 	self announcer announce: (MPlayerWin field: self).
 "	Transcript clear; show: 'Victoire'; open"
+	self boxesDoWithIndices: [ :aBox :i :j | aBox announcer announce: (MBoxClickedAnnouncement new)] 
 ]
 
 { #category : #accessing }

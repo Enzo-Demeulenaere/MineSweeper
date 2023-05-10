@@ -3,9 +3,7 @@ A MFieldTest is a test class for testing the behavior of MField
 "
 Class {
 	#name : #MFieldTest,
-	#superclass : #TestCase,
-	#traits : 'MTestResources',
-	#classTraits : 'MTestResources classTrait',
+	#superclass : #MAbstractTest,
 	#instVars : [
 		'field'
 	],
