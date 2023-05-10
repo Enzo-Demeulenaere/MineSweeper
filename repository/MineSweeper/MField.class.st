@@ -18,11 +18,6 @@ Class {
 	#category : #'MineSweeper-Core'
 }
 
-{ #category : #'as yet unclassified' }
-MField class >> MatrixTest5x5 [ 
-	^ self matrix: ((Array2D rows: 5 columns: 5) collect: [ :e | MBox randomCase ])
-]
-
 { #category : #'instance creation' }
 MField class >> matrix: aMatrix [
 	^ self new
@@ -59,6 +54,11 @@ MField class >> matrixForField [
 			at: 5 at: 4 put: MBox unknown;
 			at: 5 at: 5 put: MBox unknown;
 			yourself)
+]
+
+{ #category : #'as yet unclassified' }
+MField class >> matrixTest5x5 [ 
+	^ self matrix: ((Array2D rows: 5 columns: 5) collect: [ :e | MBox randomCase ])
 ]
 
 { #category : #'instance creation' }
@@ -172,6 +172,14 @@ MField >> fieldUpdate [
 	self announcer announce: (MFieldUpdate field: self)
 ]
 
+{ #category : #'box api' }
+MField >> flagCountAroundBoxAt: x at: y [
+	^ (self boxesAroundBoxAt: x at: y collect: [ :box | 
+		box isFlagged
+			ifTrue: [ 1 ]
+			ifFalse: [ 0 ] ]) sum
+]
+
 { #category : #accessing }
 MField >> gameEnded [
 	^ gameEnded
@@ -242,7 +250,7 @@ MField >> playerLoose [
 	
 	self boxesDoWithIndices: [ :aBox :i :j | aBox announcer announce: (MBoxClickedAnnouncement new).  ] .
 	
-	Transcript clear; show: 'Defaite'; open
+"	Transcript clear; show: 'Defaite'; open"
 ]
 
 { #category : #accessing }
@@ -255,7 +263,7 @@ MField >> playerWin [
 	playerWon := true.
 	gameEnded := true.
 	self announcer announce: (MPlayerWin field: self).
-	Transcript clear; show: 'Victoire'; open
+"	Transcript clear; show: 'Victoire'; open"
 ]
 
 { #category : #accessing }
@@ -288,6 +296,11 @@ MField >> readableTextualRepresentation [
 { #category : #'box api' }
 MField >> replaceBoxAtRow: x column: y by: aMBox [
 	matrix at: x at: y put: aMBox
+]
+
+{ #category : #accessing }
+MField >> rightFlagCountAroundAt: x at: y [ 
+	^ (self flagCountAroundBoxAt: x at: y) = (self mineCountAroundBoxAt: x at: y)
 ]
 
 { #category : #accessing }

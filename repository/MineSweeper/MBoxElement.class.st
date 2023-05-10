@@ -5,25 +5,10 @@ Class {
 		'box',
 		'field',
 		'size',
-		'clicked',
 		'text'
 	],
 	#category : #'MineSweeper-Elements'
 }
-
-{ #category : #'as yet unclassified' }
-MBoxElement >> aeDrawGeometryOn2: aeCanvas [
-	"Draw this card on an Alexandrie canvas"
-
-	"aeCanvas
-		pathFactory: [ :cairoContext |
-			cairoContext
-				roundedRectangleTo: self size
-				radius: 2];
-		setBackgroundWith: [
-			aeCanvas setSourceColor: self backgroundPaint ];
-		drawFigureAndPrepareToClip."
-]
 
 { #category : #'as yet unclassified' }
 MBoxElement >> backgroundPaint [ 
@@ -39,24 +24,76 @@ MBoxElement >> box [
 MBoxElement >> box: aMBox [	
 	box:= aMBox.
 	
-	box announcer when: MBoxClickedAnnouncement send: #click to: self 
+	box announcer when: MBoxClickedAnnouncement send: #click to: self.
+	box announcer when: MBoxFlaggedAnnouncement send: #flag to: self.
+	box announcer when: MBoxExplosionAnnouncement send: #explosion to: self 
 ]
 
 { #category : #public }
 MBoxElement >> click [ 
 	| boxPosX boxPosY |
-	clicked:= true.
+	
+	self box isFlagged ifTrue: [ ^self ].
+		 
 	self background: Color transparent.
 	
-	boxPosX := (self position x) //50 +1.
-	boxPosY := (self position y) //50 +1.
+	boxPosX := (self position x) //(self width) +1.
+	boxPosY := (self position y) //(self height) +1.
 	(self box isMineBox)
-			ifTrue: [ text text: 'M' asRopedText. ]
-			ifFalse: [text text: (self field mineCountAroundBoxAt: boxPosY  at: boxPosX) asString asRopedText ].
-	
-	
-	text text fontSize: 50.
+		ifTrue: [ text text: 'M' asRopedText. ]
+		ifFalse: [text text: (self field mineCountAroundBoxAt: boxPosY  at: boxPosX) asString 		asRopedText ].
+					
+	text text fontSize: (self width).
 	text text fontName: 'Source Sans Pro'.
+]
+
+{ #category : #'as yet unclassified' }
+MBoxElement >> explosion [
+
+	| explosionCenter |
+	explosionCenter := (self width/2) @ (self height /2).
+
+	0 to: 359 by: 120 do: [ :angle |
+		| anElement relativeFinalPosition |
+		relativeFinalPosition := 0 @ 400
+			                         rotateBy: angle degreesToRadians
+			                         about: 0 @ 0.
+		anElement := self explosionStar.
+		self addChild: anElement.
+		anElement		
+			position: explosionCenter;
+			addAnimation: (BlTransformAnimation new
+					 duration: 1 second;
+					 transformDo: [ :t |
+						 t translateBy: relativeFinalPosition.
+						 t rotateBy: 180 ];
+					 onFinishedDo: [ Transcript show: anElement position ; cr; open. 
+						anElement removeFromParent.
+							 ];
+					 yourself);
+			yourself.]
+]
+
+{ #category : #'as yet unclassified' }
+MBoxElement >> explosionStar [
+	|outerSize innerSize numberOfPoints angleStep vertices|
+
+	outerSize := 20.
+	innerSize := 8.
+	numberOfPoints := 4.
+	angleStep := 360.0 / numberOfPoints.
+
+	vertices := OrderedCollection new.
+	0 to: 360 by: angleStep do: [ :angle |
+    	vertices
+        	add: (0@innerSize rotateBy: (angle - (angleStep * 0.5)) degreesToRadians about: 0 asPoint);
+        	add: (0@outerSize rotateBy: angle degreesToRadians about: 0 asPoint);
+        	add: (0@innerSize rotateBy: (angle + (angleStep * 0.5)) degreesToRadians about: 0 asPoint) 	].
+
+	^ BlElement new
+        geometry: (BlPolygonGeometry vertices: vertices);
+        background: Color random;
+        yourself.
 ]
 
 { #category : #accessing }
@@ -69,12 +106,32 @@ MBoxElement >> field: aMField [
 	field:= aMField 
 ]
 
+{ #category : #accessing }
+MBoxElement >> flag [ 
+	|pngElement aForm|
+		
+	pngElement := BlElement new.
+	aForm := PNGReadWriter formFromFileNamed: 'flag.png'.
+	pngElement background: aForm.
+	pngElement size: self extent.
+	self box isFlagged   
+		ifFalse: [ self addChild: pngElement as: 'png'.
+			pngElement size: self extent.]
+		ifTrue: [self removeChildNamed: 'png' ].
+		
+	self box flagged: self box isFlagged not.
+	
+	
+	
+]
+
 { #category : #initialization }
 MBoxElement >> initialize [ 
+	| posX posY |
 	super initialize.
 	self background: self backgroundPaint.
 	self geometry: (BlRoundedRectangleGeometry cornerRadius: 5).
-	self size: 48.
+	self size: 150@150.
 	
 	text := BlTextElement new.
 	self addChild: text.
@@ -84,20 +141,12 @@ MBoxElement >> initialize [
 		c frame vertical alignCenter.
 		c frame horizontal alignCenter ].
 	
-	"self margin: (BlInsets top: 2 left: 2 bottom: 2 right: 2 ). "
-]
-
-{ #category : #testing }
-MBoxElement >> isClicked [ 
-	^ clicked
-]
-
-{ #category : #'api - bounds' }
-MBoxElement >> size [ 
-	^ size
-]
-
-{ #category : #'api - bounds' }
-MBoxElement >> size: aNumber [
-	size:= aNumber@aNumber 
+	self addEventHandlerOn: BlMouseUpEvent do: [ :anEvent |
+		
+		posX:= (anEvent position x) //(self width+self parent layout cellSpacing ) +1.
+		posY:= (anEvent position y) //(self height+self parent layout cellSpacing ) +1.
+		anEvent secondaryButtonPressed 
+			ifTrue: [ box announceFlag ]
+			ifFalse: [ self box isFlagged ifFalse: [ box clickIn: field at: posY at: posX ]].
+		].
 ]

@@ -14,8 +14,9 @@ MUnknown >> accept: aMFieldVisitor [
 
 { #category : #clicking }
 MUnknown >> clickIn: aMField at: x at: y [
-	(aMField boxAt: x at: y ) announcer announce: (MBoxClickedAnnouncement new).
-	aMField replaceBoxAtRow: x column: y by: MClicked new.
+	self announcer announce: MBoxClickedAnnouncement new.
+	(aMField boxAt: x at: y) isUnknownBox ifTrue: 
+		[ aMField replaceBoxAtRow: x column: y by: MClicked new].
 	self propagateClickIn: aMField at: x at: y.
 	aMField incrementRound.
 	"the end of the game is when the player has clicked on all the unknown boxes.
@@ -37,11 +38,14 @@ MUnknown >> printOn: aStream [
 
 { #category : #clicking }
 MUnknown >> propagateClickIn: aMField at: x at: y [
-	(aMField hasMineBoxAroundBoxAt: x at: y)
-		ifFalse: [ 
+	(	
+		(aMField hasMineBoxAroundBoxAt: x at: y) not or: 
+		(aMField rightFlagCountAroundAt: x at: y)
+	)
+		ifTrue: [ 
 			aMField boxesAroundBoxAt: x at: y doWithIndexes: [ :box :i :j |
-				box isUnknownBox ifTrue: [ 
-					(aMField boxAt: i at: j ) announcer announce: (MBoxClickedAnnouncement new).
-					aMField replaceBoxAtRow: i column: j by: MClicked new.
+				box isClickedBox ifFalse: [ 
+					(aMField boxAt: i at: j ) clickIn: aMField  at: i at: j.
+"					aMField replaceBoxAtRow: i column: j by: MClicked new."
 					self propagateClickIn: aMField at: i at: j ] ] ]
 ]

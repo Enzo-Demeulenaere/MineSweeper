@@ -9,13 +9,21 @@ Class {
 
 { #category : #'mouse handlers' }
 MBoxEventListener >> clickEvent: anEvent [
-	|posX posY|
-	
+	|posX posY targetBox|
 	posX:= (anEvent position x) //50 +1.
 	posY:= (anEvent position y) //50 +1.
-	
-	anEvent currentTarget box clickIn: self field at: posY at: posX.
-	anEvent currentTarget click.
+	targetBox := anEvent currentTarget box.
+	Transcript show: 'fais moi signe si tu proc'; cr; open
+	"anEvent secondaryButtonPressed 
+		ifTrue: [ 
+			targetBox announceFlag]
+		ifFalse: [ 
+			targetBox 
+				clickIn: self field 
+				at: posY 
+				at: posX. ]"
+
+
 	
 	
 ]

@@ -5,7 +5,8 @@ Class {
 	#name : #MBox,
 	#superclass : #MVisitableObject,
 	#instVars : [
-		'announcer'
+		'announcer',
+		'flagged'
 	],
 	#category : #'MineSweeper-Core'
 }
@@ -22,7 +23,7 @@ MBox class >> mine [
 
 { #category : #'random subclass instance creation' }
 MBox class >> randomCase [
-	^ (1 to: 10) atRandom > 9
+	^ (1 to: 7) atRandom > 6
 			ifTrue: [ self mine ]
 			ifFalse: [ self unknown ].
 ]
@@ -30,6 +31,11 @@ MBox class >> randomCase [
 { #category : #'subclass instance creation' }
 MBox class >> unknown [
 	^ MUnknown new
+]
+
+{ #category : #accessing }
+MBox >> announceFlag [ 
+	announcer announce: MBoxFlaggedAnnouncement
 ]
 
 { #category : #accessing }
@@ -42,9 +48,24 @@ MBox >> clickIn: aMField at: x at: y [
 	self subclassResponsibility
 ]
 
+{ #category : #accessing }
+MBox >> flagged: aBoolean [
+	flagged:= aBoolean 
+]
+
+{ #category : #initialization }
+MBox >> initialize [ 
+	flagged := false
+]
+
 { #category : #testing }
 MBox >> isClickedBox [
 	^ false
+]
+
+{ #category : #testing }
+MBox >> isFlagged [ 
+	^ flagged
 ]
 
 { #category : #testing }
