@@ -53,7 +53,7 @@ MBoxElement >> explosion [
 	| explosionCenter |
 	explosionCenter := (self width/2) @ (self height /2).
 
-	0 to: 359 by: 120 do: [ :angle |
+	0 to: 359 by: 12 do: [ :angle |
 		| anElement relativeFinalPosition |
 		relativeFinalPosition := 0 @ 400
 			                         rotateBy: angle degreesToRadians
@@ -67,10 +67,10 @@ MBoxElement >> explosion [
 					 transformDo: [ :t |
 						 t translateBy: relativeFinalPosition.
 						 t rotateBy: 180 ];
-					 onFinishedDo: [ Transcript show: anElement position ; cr; open. 
+					 onFinishedDo: [ "Transcript show: anElement position ; cr; open." 
 						anElement removeFromParent.
 							 ];
-					 yourself);
+					 yourself)
 			yourself.]
 ]
 
