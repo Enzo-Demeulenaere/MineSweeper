@@ -34,8 +34,10 @@ MBox class >> unknown [
 ]
 
 { #category : #accessing }
-MBox >> announceFlag [ 
-	announcer announce: MBoxFlaggedAnnouncement
+MBox >> announceFlag [
+
+	self announcer announce: MBoxFlaggedAnnouncement new.
+	self flagged: flagged not
 ]
 
 { #category : #accessing }

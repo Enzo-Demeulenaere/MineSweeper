@@ -80,6 +80,14 @@ MFieldTest >> testFieldUpdate [
 	self assert: update.
 ]
 
+{ #category : #tests }
+MFieldTest >> testFlagIsWorking [
+	self deny: (field boxAt: 1 at: 3) isFlagged.
+	(field boxAt: 1 at: 3) announceFlag.
+	self assert: (field boxAt: 1 at: 3) isFlagged.
+
+]
+
 { #category : #'tests-testing' }
 MFieldTest >> testHasClickedBoxAroundBoxAtAt [
 	self deny: (field hasClickedBoxAroundBoxAt: 1 at: 1).
@@ -168,6 +176,22 @@ MFieldTest >> testPlayerWin [
 	self
 		assert: win;
 		assert: field playerWon
+]
+
+{ #category : #tests }
+MFieldTest >> testPropagateWhenEnoughFlagsAround [
+	field clickOnBoxAt: 1 at: 4.
+	(field boxAt: 1 at: 3) announceFlag.
+	(field boxAt: 2 at: 3) announceFlag.
+	self deny: (field boxAt: 1 at: 5) isClickedBox.
+	self deny: (field boxAt: 2 at: 5) isClickedBox.
+	self deny: (field boxAt: 2 at: 4) isClickedBox.
+	field clickOnBoxAt: 1 at: 4.
+	self assert: (field boxAt: 1 at: 5) isClickedBox.
+	self assert: (field boxAt: 2 at: 5) isClickedBox.
+	self assert: (field boxAt: 2 at: 4) isClickedBox.	
+	
+	  
 ]
 
 { #category : #'tests-box api' }

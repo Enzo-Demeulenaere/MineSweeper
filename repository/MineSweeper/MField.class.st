@@ -247,10 +247,11 @@ MField >> playerLoose [
 	playerWon := false.
 	gameEnded := true.
 	self announcer announce: (MPlayerLoose field: self).
-	
-	self boxesDoWithIndices: [ :aBox :i :j | aBox announcer announce: (MBoxClickedAnnouncement new).  ] .
-	
-"	Transcript clear; show: 'Defaite'; open"
+
+	self boxesDoWithIndices: [ :aBox :i :j |
+		aBox announcer announce: (MBoxClickAndReplaceAnnouncement replaceBy: MClicked new) ]
+
+	"	Transcript clear; show: 'Defaite'; open"
 ]
 
 { #category : #accessing }
@@ -260,11 +261,13 @@ MField >> playerLost [
 
 { #category : #'box api' }
 MField >> playerWin [
+
 	playerWon := true.
 	gameEnded := true.
 	self announcer announce: (MPlayerWin field: self).
-"	Transcript clear; show: 'Victoire'; open"
-	self boxesDoWithIndices: [ :aBox :i :j | aBox announcer announce: (MBoxClickedAnnouncement new)] 
+	"	Transcript clear; show: 'Victoire'; open"
+	self boxesDoWithIndices: [ :aBox :i :j |
+		aBox announcer announce: (MBoxClickAndReplaceAnnouncement replaceBy: MClicked new)]
 ]
 
 { #category : #accessing }

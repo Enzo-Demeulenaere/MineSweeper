@@ -21,30 +21,43 @@ MBoxElement >> box [
 ]
 
 { #category : #accessing }
-MBoxElement >> box: aMBox [	
+MBoxElement >> box: aMBox [
+
 	box := aMBox.
-	
-	box announcer when: MBoxClickedAnnouncement send: #click to: self.
+
+	box announcer
+		when: MBoxClickAndReplaceAnnouncement
+		send: #click: 
+		to: self.
 	box announcer when: MBoxFlaggedAnnouncement send: #flag to: self.
-	box announcer when: MBoxExplosionAnnouncement send: #explosion to: self 
+	box announcer
+		when: MBoxExplosionAnnouncement
+		send: #explosion
+		to: self
 ]
 
 { #category : #public }
-MBoxElement >> click [ 
+MBoxElement >> click: anAnnouncement [
+	
 	| boxPosX boxPosY |
-	
-	self box isFlagged ifTrue: [ self field gameEnded ifFalse: [^self] ].
-		 
+	self box isFlagged ifTrue: [
+		self field gameEnded ifFalse: [ ^ self ] ].
+
 	self background: Color transparent.
-	
-	boxPosX := (self position x) //(self width) +1.
-	boxPosY := (self position y) //(self height) +1.
-	(self box isMineBox)
-		ifTrue: [ text text: 'M' asRopedText. ]
-		ifFalse: [text text: (self field mineCountAroundBoxAt: boxPosY  at: boxPosX) asString 		asRopedText ].
-					
-	text text fontSize: (self width).
-	text text fontName: 'Source Sans Pro'.
+
+	boxPosX := self position x // self width + 1.
+	boxPosY := self position y // self height + 1.
+	self box isMineBox
+		ifTrue: [ text text: 'M' asRopedText ]
+		ifFalse: [
+			text text:
+				(self field mineCountAroundBoxAt: boxPosY at: boxPosX) asString
+					asRopedText.
+			self box announcer unsubscribe: self.
+			self box: anAnnouncement box ].
+
+	text text fontSize: self width.
+	text text fontName: 'Source Sans Pro'
 ]
 
 { #category : #'as yet unclassified' }
@@ -107,22 +120,19 @@ MBoxElement >> field: aMField [
 ]
 
 { #category : #accessing }
-MBoxElement >> flag [ 
-	|pngElement aForm|
-		
+MBoxElement >> flag [
+
+	| pngElement aForm |
 	pngElement := BlElement new.
 	aForm := PNGReadWriter formFromFileNamed: 'flag.png'.
 	pngElement background: aForm.
 	pngElement size: self extent.
-	self box isFlagged   
-		ifFalse: [ self addChild: pngElement as: 'png'.
-			pngElement size: self extent.]
-		ifTrue: [self removeChildNamed: 'png' ].
-		
-	self box flagged: self box isFlagged not.
-	
-	
-	
+	self box isFlagged
+		ifFalse: [
+			self addChild: pngElement as: 'png'.
+			pngElement size: self extent ]
+		ifTrue: [ self removeChildNamed: 'png' ].
+
 ]
 
 { #category : #initialization }

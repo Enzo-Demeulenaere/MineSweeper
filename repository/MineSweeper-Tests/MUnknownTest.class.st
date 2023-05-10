@@ -16,7 +16,7 @@ MUnknownTest >> setUp [
 ]
 
 { #category : #'tests-clicking' }
-MUnknownTest >> testClickInAtAt [
+MUnknownTest >> testClickInAtAtProduceAPropagateTONeighbour [
 	field clickOnBoxAt: 1 at: 1.
 	self
 		assert: (field boxAt: 1 at: 1) isClickedBox;
