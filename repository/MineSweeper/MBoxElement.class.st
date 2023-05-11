@@ -10,6 +10,17 @@ Class {
 	#category : #'MineSweeper-Elements'
 }
 
+{ #category : #'class initialization' }
+MBoxElement class >> initialize [
+
+	(FileLocator imageDirectory / 'flag.png') exists ifTrue: [ ^ self ].
+
+	ZnClient new
+		url:
+			'https://github.com/Enzo-Demeulenaere/MineSweeper/blob/master/repository/flag.png?raw=true';
+		downloadTo: FileLocator imageDirectory
+]
+
 { #category : #'as yet unclassified' }
 MBoxElement >> backgroundPaint [ 
 	^ Color lightGray 
@@ -53,13 +64,13 @@ MBoxElement >> click: anAnnouncement [
 			self box announcer unsubscribe: self.
 			self box: anAnnouncement box.
 
-			boxPosX := self box position x. 
+			boxPosX := self box position x.
 			boxPosY := self box position y.
 			text text:
 				(self field mineCountAroundBoxAt: boxPosX at: boxPosY) asString
-					asRopedText. ].
+					asRopedText ].
 
-	text text fontSize: self width.
+	text text fontSize:  (self width min: self height).
 	text text fontName: 'Source Sans Pro'
 ]
 
@@ -132,14 +143,15 @@ MBoxElement >> flag [
 	| pngElement aForm |
 	pngElement := BlElement new.
 	aForm := PNGReadWriter formFromFileNamed: 'flag.png'.
-	pngElement background: aForm.
-	pngElement size: self extent.
-	self box isFlagged
-		ifFalse: [
-			self addChild: pngElement as: 'png'.
-			pngElement size: self extent ]
-		ifTrue: [ self removeChildNamed: 'png' ].
+	pngElement background: (BlMatchExtentImageBackground image: aForm).
 
+	pngElement constraintsDo: [ :c |
+		c horizontal matchParent.
+		c vertical matchParent].
+
+	self box isFlagged
+		ifFalse: [ self addChild: pngElement as: 'png' ]
+		ifTrue: [ self removeChildNamed: 'png' ]
 ]
 
 { #category : #initialization }
@@ -150,12 +162,14 @@ MBoxElement >> initialize [
 	self background: self backgroundPaint.
 	self geometry: (BlRoundedRectangleGeometry cornerRadius: 5).
 	self size: 150 @ 150.
+
 	self clipChildren: false.
 
 	text := BlTextElement new.
 	self addChild: text.
 	text text: '' asRopedText.
 	self layout: BlFrameLayout new.
+
 	text constraintsDo: [ :c |
 		c frame vertical alignCenter.
 		c frame horizontal alignCenter ].

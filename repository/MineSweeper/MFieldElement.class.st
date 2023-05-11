@@ -27,22 +27,25 @@ MFieldElement class >> matrixForField [
 ]
 
 { #category : #execution }
-MFieldElement class >> matrixTest5x5 [  
-	|aGameElement space|
+MFieldElement class >> matrixTest5x5 [
+
+	| aGameElement space |
 	"Create the game model and the Bloc element."
-	aGameElement := self new game: MField matrixTest5x5 ; yourself.
-	
+	aGameElement := self new
+		                game: MField matrixTest5x5;
+		                yourself.
+
 	"The space represents the window"
 	space := BlSpace new.
-	space addChild: aGameElement. 
+	space addChild: aGameElement.
 
 	"Calculate the extent of the game board for the first time, to set it to the window."
 	space pulse.
 	space extent: aGameElement extent.
 
 	"Show the window"
-
-	space show. 
+	space show.
+	^ space
 ]
 
 { #category : #accessing }
