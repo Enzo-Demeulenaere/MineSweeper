@@ -246,14 +246,16 @@ MField >> mineCountAroundBoxAt: x at: y [
 
 { #category : #'box api' }
 MField >> playerLoose [
+
 	playerWon := false.
 	gameEnded := true.
 	self announcer announce: (MPlayerLoose field: self).
 
-	self boxesDoWithIndices: [ :aBox :i :j |
-		aBox announcer announce: (MBoxClickAndReplaceAnnouncement replaceBy: MClicked new) ]
+	Transcript clear; show: 'Defaite'; open.
 
-	"	Transcript clear; show: 'Defaite'; open"
+	self boxesDoWithIndices: [ :aBox :i :j |
+		aBox announcer announce:
+			(MBoxClickAndReplaceAnnouncement replaceBy: MClicked new) ]
 ]
 
 { #category : #accessing }
@@ -267,9 +269,10 @@ MField >> playerWin [
 	playerWon := true.
 	gameEnded := true.
 	self announcer announce: (MPlayerWin field: self).
-	"	Transcript clear; show: 'Victoire'; open"
+	Transcript clear; show: 'Victoire'; open.
 	self boxesDoWithIndices: [ :aBox :i :j |
-		aBox announcer announce: (MBoxClickAndReplaceAnnouncement replaceBy: MClicked new)]
+		aBox announcer announce:
+			(MBoxClickAndReplaceAnnouncement replaceBy: MClicked new) ]
 ]
 
 { #category : #accessing }
