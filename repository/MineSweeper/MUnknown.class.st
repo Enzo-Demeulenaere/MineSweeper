@@ -14,9 +14,11 @@ MUnknown >> accept: aMFieldVisitor [
 
 { #category : #clicking }
 MUnknown >> clickIn: aMField at: x at: y [
-	|box|
-	box:= MClicked new.
-	self announcer announce: (MBoxClickAndReplaceAnnouncement replaceBy: box).
+
+	| box |
+	box := MClicked new.
+	self announcer announce:
+		(MBoxClickAndReplaceAnnouncement replaceBy: box).
 	aMField replaceBoxAtRow: x column: y by: box.
 
 	self propagateClickIn: aMField at: x at: y.

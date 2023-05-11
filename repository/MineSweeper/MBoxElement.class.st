@@ -38,10 +38,12 @@ MBoxElement >> box: aMBox [
 
 { #category : #public }
 MBoxElement >> click: anAnnouncement [
-	
+
 	| boxPosX boxPosY |
 	self box isFlagged ifTrue: [
-		self field gameEnded ifFalse: [ ^ self ] ].
+		self field gameEnded 
+			ifFalse: [ ^ self ]
+			ifTrue: [ self background: Color transparent ] ].
 
 	self background: Color transparent.
 
@@ -64,7 +66,7 @@ MBoxElement >> click: anAnnouncement [
 MBoxElement >> explosion [
 
 	| explosionCenter |
-	explosionCenter := (self width/2) @ (self height /2).
+	explosionCenter := self width / 2 @ (self height / 2).
 
 	0 to: 359 by: 12 do: [ :angle |
 		| anElement relativeFinalPosition |
@@ -73,40 +75,44 @@ MBoxElement >> explosion [
 			                         about: 0 @ 0.
 		anElement := self explosionStar.
 		self addChild: anElement.
-		anElement		
+		anElement
 			position: explosionCenter;
 			addAnimation: (BlTransformAnimation new
 					 duration: 1 second;
 					 transformDo: [ :t |
 						 t translateBy: relativeFinalPosition.
 						 t rotateBy: 180 ];
-					 onFinishedDo: [ "Transcript show: anElement position ; cr; open." 
-						anElement removeFromParent.
-							 ];
-					 yourself)
-			yourself.]
+					 onFinishedDo: [ "Transcript show: anElement position ; cr; open."
+						 anElement removeFromParent ];
+					 yourself) yourself ]
 ]
 
 { #category : #'as yet unclassified' }
 MBoxElement >> explosionStar [
-	|outerSize innerSize numberOfPoints angleStep vertices|
 
+	| outerSize innerSize numberOfPoints angleStep vertices |
 	outerSize := 20.
 	innerSize := 8.
-	numberOfPoints := 4.
+	numberOfPoints := (4 to: 7) atRandom.
 	angleStep := 360.0 / numberOfPoints.
 
 	vertices := OrderedCollection new.
 	0 to: 360 by: angleStep do: [ :angle |
-    	vertices
-        	add: (0@innerSize rotateBy: (angle - (angleStep * 0.5)) degreesToRadians about: 0 asPoint);
-        	add: (0@outerSize rotateBy: angle degreesToRadians about: 0 asPoint);
-        	add: (0@innerSize rotateBy: (angle + (angleStep * 0.5)) degreesToRadians about: 0 asPoint) 	].
+		vertices
+			add: (0 @ innerSize
+					 rotateBy: (angle - (angleStep * 0.5)) degreesToRadians
+					 about: 0 asPoint);
+			add:
+				(0 @ outerSize rotateBy: angle degreesToRadians about: 0 asPoint);
+			add: (0 @ innerSize
+					 rotateBy: (angle + (angleStep * 0.5)) degreesToRadians
+					 about: 0 asPoint) ].
 
 	^ BlElement new
-        geometry: (BlPolygonGeometry vertices: vertices);
-        background: Color random;
-        yourself.
+		  geometry: (BlPolygonGeometry vertices: vertices);
+		  background: Color random;
+		  constraintsDo: [ :c | c ignoreByLayout ];
+		  yourself
 ]
 
 { #category : #accessing }
@@ -136,27 +142,31 @@ MBoxElement >> flag [
 ]
 
 { #category : #initialization }
-MBoxElement >> initialize [ 
+MBoxElement >> initialize [
+
 	| posX posY |
 	super initialize.
 	self background: self backgroundPaint.
 	self geometry: (BlRoundedRectangleGeometry cornerRadius: 5).
-	self size: 150@150.
-	
+	self size: 150 @ 150.
+	self clipChildren: false.
+
 	text := BlTextElement new.
 	self addChild: text.
 	text text: '' asRopedText.
 	self layout: BlFrameLayout new.
-	text constraintsDo: [ :c | 
+	text constraintsDo: [ :c |
 		c frame vertical alignCenter.
 		c frame horizontal alignCenter ].
-	
+
 	self addEventHandlerOn: BlMouseUpEvent do: [ :anEvent |
-		
-		posX:= (anEvent position x) //(self width+self parent layout cellSpacing ) +1.
-		posY:= (anEvent position y) //(self height+self parent layout cellSpacing ) +1.
-		anEvent secondaryButtonPressed 
+		posX := anEvent position x
+		        // (self width + self parent layout cellSpacing) + 1.
+		posY := anEvent position y
+		        // (self height + self parent layout cellSpacing) + 1.
+		anEvent secondaryButtonPressed
 			ifTrue: [ box announceFlag ]
-			ifFalse: [ self box isFlagged ifFalse: [ box clickIn: field at: posY at: posX ]].
-		].
+			ifFalse: [
+				self box isFlagged ifFalse: [
+					box clickIn: field at: posY at: posX ] ] ]
 ]

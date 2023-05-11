@@ -6,7 +6,8 @@ Class {
 	#superclass : #MVisitableObject,
 	#instVars : [
 		'announcer',
-		'flagged'
+		'flagged',
+		'position'
 	],
 	#category : #'MineSweeper-Core'
 }
@@ -78,4 +79,16 @@ MBox >> isMineBox [
 { #category : #testing }
 MBox >> isUnknownBox [
 	^ false
+]
+
+{ #category : #accessing }
+MBox >> position [
+
+	^ position
+]
+
+{ #category : #accessing }
+MBox >> position: aPoint [
+
+	position := aPoint
 ]

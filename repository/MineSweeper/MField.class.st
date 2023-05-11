@@ -226,7 +226,9 @@ MField >> matrix [
 
 { #category : #'private - accessing' }
 MField >> matrix: anObject [
-	matrix := anObject
+
+	matrix := anObject.
+	matrix indicesDo: [ :line :column | (matrix at: line at: column) position: column @ line]
 ]
 
 { #category : #'player api' }
