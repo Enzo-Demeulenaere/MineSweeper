@@ -1,7 +1,7 @@
 Class {
 	#name : #BaselineOfMineSweeper,
 	#superclass : #BaselineOf,
-	#category : 'BaselineOfMineSweeper'
+	#category : #BaselineOfMineSweeper
 }
 
 { #category : #baseline }
@@ -18,10 +18,16 @@ BaselineOfMineSweeper >> baseline: spec [
 
 { #category : #baseline }
 BaselineOfMineSweeper >> defineDependencies: spec [
-	^ spec
-		baseline: 'Seaside3' with: [
-			spec repository: 'github://SeasideSt/Seaside:master/repository'  ];
-		yourself
+
+	spec
+		baseline: 'Seaside3'
+		with: [
+			spec repository: 'github://SeasideSt/Seaside:master/repository' ].
+
+	spec
+		baseline: 'Bloc'
+		with: [
+			spec repository: 'github://pharo-graphics/Bloc:dev-1.0/src' ]
 ]
 
 { #category : #baseline }
@@ -34,9 +40,12 @@ BaselineOfMineSweeper >> defineGroups: spec [
 
 { #category : #baseline }
 BaselineOfMineSweeper >> definePackages: spec [
+
 	^ spec
-		package: 'MineSweeper';
-		package: 'MineSweeper-Tests' with: [ spec requires: #('MineSweeper') ];
-		package: 'MineSweeper-Seaside' with: [ spec requires: #('MineSweeper' 'Seaside3') ];
-		yourself
+		  package: 'MineSweeper'with: [ spec requires: #('Bloc') ];
+		  package: 'MineSweeper-Tests'
+		  with: [ spec requires: #( 'MineSweeper' ) ];
+		  package: 'MineSweeper-Seaside'
+		  with: [ spec requires: #( 'MineSweeper' 'Seaside3' ) ];
+		  yourself
 ]
