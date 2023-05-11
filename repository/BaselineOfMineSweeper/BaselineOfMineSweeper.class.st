@@ -22,12 +22,11 @@ BaselineOfMineSweeper >> defineDependencies: spec [
 	spec
 		baseline: 'Seaside3'
 		with: [
-			spec repository: 'github://SeasideSt/Seaside:master/repository' ].
+		spec repository: 'github://SeasideSt/Seaside:master/repository' ].
 
 	spec
 		baseline: 'Bloc'
-		with: [
-			spec repository: 'github://pharo-graphics/Bloc:dev-1.0/src' ]
+		with: [ spec repository: 'github://Enzo-Demeulenaere/Bloc:dev-1.0/src' ]
 ]
 
 { #category : #baseline }
