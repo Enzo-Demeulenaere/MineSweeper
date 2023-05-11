@@ -16,7 +16,7 @@ MUnknown >> accept: aMFieldVisitor [
 MUnknown >> clickIn: aMField at: x at: y [
 
 	| box |
-	box := MClicked new.
+	box := MClicked new position: x@y.
 	self announcer announce:
 		(MBoxClickAndReplaceAnnouncement replaceBy: box).
 	aMField replaceBoxAtRow: x column: y by: box.
@@ -42,14 +42,10 @@ MUnknown >> printOn: aStream [
 
 { #category : #clicking }
 MUnknown >> propagateClickIn: aMField at: x at: y [
-	(	
-		(aMField hasMineBoxAroundBoxAt: x at: y) not 
-			or: [aMField rightFlagCountAroundAt: x at: y]
-	)
-		ifTrue: [ 
-			aMField boxesAroundBoxAt: x at: y doWithIndexes: [ :box :i :j |
-				box isClickedBox ifFalse: [ 
-					(aMField boxAt: i at: j ) clickIn: aMField  at: i at: j.
-"					aMField replaceBoxAtRow: i column: j by: MClicked new."
-"					self propagateClickIn: aMField at: i at: j "] ] ]
+
+	((aMField hasMineBoxAroundBoxAt: x at: y) not or: [
+		 aMField rightFlagCountAroundAt: x at: y ]) ifTrue: [
+		aMField boxesAroundBoxAt: x at: y doWithIndexes: [ :box :i :j |
+			box isClickedBox ifFalse: [
+				(aMField boxAt: i at: j) clickIn: aMField at: i at: j] ] ]
 ]

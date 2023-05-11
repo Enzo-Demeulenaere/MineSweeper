@@ -52,31 +52,23 @@ MFieldElement >> game [
 
 { #category : #accessing }
 MFieldElement >> game: aMField [
-"	|aBoxEventListener|
 
-	aBoxEventListener := self newMBoxEventListener field: aMField."
-	game:= aMField.
+	game := aMField.
 	self layout columnCount: game width.
-	game matrix do: [ :aBox | 
-		|boxElement|
+	game matrix do: [ :aBox |
+		| boxElement |
 		boxElement := (MBoxElement new box: aBox) field: aMField.
 		self addChild: boxElement ]
-	 
 ]
 
 { #category : #initialization }
 MFieldElement >> initialize [
 
 	super initialize.
-"	self padding: (BlInsets all: 20)."
+	self padding: (BlInsets all: 20).
 	self background: (BlBackground paint: Color white darker).
 	self layout: (BlGridLayout horizontal cellSpacing: 5).
 	self constraintsDo: [ :aLayoutConstraints |
 		aLayoutConstraints horizontal fitContent.
 		aLayoutConstraints vertical fitContent ]
-]
-
-{ #category : #'instance creation' }
-MFieldElement >> newMBoxEventListener [ 
-	^ MBoxEventListener new
 ]

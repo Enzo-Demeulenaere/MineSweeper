@@ -39,24 +39,25 @@ MBoxElement >> box: aMBox [
 { #category : #public }
 MBoxElement >> click: anAnnouncement [
 
-	| boxPosX boxPosY |
 	self box isFlagged ifTrue: [
-		self field gameEnded 
+		self field gameEnded
 			ifFalse: [ ^ self ]
 			ifTrue: [ self background: Color transparent ] ].
 
 	self background: Color transparent.
 
-	boxPosX := self position x // self width + 1.
-	boxPosY := self position y // self height + 1.
 	self box isMineBox
 		ifTrue: [ text text: 'M' asRopedText ]
 		ifFalse: [
-			text text:
-				(self field mineCountAroundBoxAt: boxPosY at: boxPosX) asString
-					asRopedText.
+			| boxPosX boxPosY |
 			self box announcer unsubscribe: self.
-			self box: anAnnouncement box ].
+			self box: anAnnouncement box.
+
+			boxPosX := self box position x. 
+			boxPosY := self box position y.
+			text text:
+				(self field mineCountAroundBoxAt: boxPosX at: boxPosY) asString
+					asRopedText. ].
 
 	text text fontSize: self width.
 	text text fontName: 'Source Sans Pro'
@@ -160,13 +161,11 @@ MBoxElement >> initialize [
 		c frame horizontal alignCenter ].
 
 	self addEventHandlerOn: BlMouseUpEvent do: [ :anEvent |
-		posX := anEvent position x
-		        // (self width + self parent layout cellSpacing) + 1.
-		posY := anEvent position y
-		        // (self height + self parent layout cellSpacing) + 1.
+		posX := anEvent currentTarget box position x.
+		posY := anEvent currentTarget box position y.
 		anEvent secondaryButtonPressed
 			ifTrue: [ box announceFlag ]
 			ifFalse: [
 				self box isFlagged ifFalse: [
-					box clickIn: field at: posY at: posX ] ] ]
+					box clickIn: field at: posX at: posY ] ] ]
 ]

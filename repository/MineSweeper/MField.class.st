@@ -228,7 +228,8 @@ MField >> matrix [
 MField >> matrix: anObject [
 
 	matrix := anObject.
-	matrix indicesDo: [ :line :column | (matrix at: line at: column) position: column @ line]
+	matrix indicesDo: [ :line :column |
+		(matrix at: line at: column) position: line @ column ].
 ]
 
 { #category : #'player api' }
@@ -251,11 +252,14 @@ MField >> playerLoose [
 	gameEnded := true.
 	self announcer announce: (MPlayerLoose field: self).
 
-	Transcript clear; show: 'Defaite'; open.
+	Transcript
+		clear;
+		show: 'Defaite';
+		open.
 
 	self boxesDoWithIndices: [ :aBox :i :j |
 		aBox announcer announce:
-			(MBoxClickAndReplaceAnnouncement replaceBy: MClicked new) ]
+			(MBoxClickAndReplaceAnnouncement replaceBy: (MClicked new position: i@j)) ]
 ]
 
 { #category : #accessing }
@@ -265,14 +269,18 @@ MField >> playerLost [
 
 { #category : #'box api' }
 MField >> playerWin [
-
+	gameEnded ifTrue: [ ^self ].
 	playerWon := true.
 	gameEnded := true.
 	self announcer announce: (MPlayerWin field: self).
-	Transcript clear; show: 'Victoire'; open.
+	Transcript
+		clear;
+		show: 'Victoire';
+		open.
 	self boxesDoWithIndices: [ :aBox :i :j |
 		aBox announcer announce:
-			(MBoxClickAndReplaceAnnouncement replaceBy: MClicked new) ]
+			(MBoxClickAndReplaceAnnouncement replaceBy:
+				 (MClicked new position: i @ j)) ]
 ]
 
 { #category : #accessing }
