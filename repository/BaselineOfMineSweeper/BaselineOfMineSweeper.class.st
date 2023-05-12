@@ -26,7 +26,8 @@ BaselineOfMineSweeper >> defineDependencies: spec [
 
 	spec
 		baseline: 'Bloc'
-		with: [ spec repository: 'github://Enzo-Demeulenaere/Bloc:dev-1.0/src' ]
+		with: [
+		spec repository: 'github://Enzo-Demeulenaere/BlocForMineSweeper:dev-1.0/src' ]
 ]
 
 { #category : #baseline }
