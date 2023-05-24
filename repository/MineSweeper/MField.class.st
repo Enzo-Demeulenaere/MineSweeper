@@ -13,7 +13,8 @@ Class {
 		'round',
 		'gameEnded',
 		'playerWon',
-		'announcer'
+		'announcer',
+		'magnifier'
 	],
 	#category : #'MineSweeper-Core'
 }
@@ -217,6 +218,16 @@ MField >> initialize [
 	announcer := Announcer new.
 	gameEnded := false.
 	playerWon := false
+]
+
+{ #category : #accessing }
+MField >> magnifier [ 
+	^ magnifier
+]
+
+{ #category : #accessing }
+MField >> magnifier: aNumber [
+	magnifier := aNumber 
 ]
 
 { #category : #accessing }
