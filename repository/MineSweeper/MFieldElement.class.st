@@ -7,55 +7,40 @@ Class {
 	#category : #'MineSweeper-Elements'
 }
 
-{ #category : #'test ressources' }
-MFieldElement class >> matrixForField [  
-	|aGameElement space|
-	"Create the game model and the Bloc element."
-	aGameElement := self new game: MField matrixForField ; yourself.
-	
-	"The space represents the window"
-	space := BlSpace new.
-	space addChild: aGameElement. 
-
-	"Calculate the extent of the game board for the first time, to set it to the window."
-	space pulse.
-	space extent: aGameElement extent.
-
-	"Show the window"
-
-	space show. 
+{ #category : #'as yet unclassified' }
+MFieldElement class >> launchLarge [
+	^ self withMatrixTest5x5WithMagnifier: 2
 ]
 
-{ #category : #execution }
-MFieldElement class >> matrixTest5x5 [
+{ #category : #'as yet unclassified' }
+MFieldElement class >> launchRegular [
+	^ self withMatrixTest5x5 
+]
 
-	| aGameElement space |
-	"Create the game model and the Bloc element."
-	aGameElement := self new
-		                game: MField matrixTest5x5;
-		                yourself.
+{ #category : #'as yet unclassified' }
+MFieldElement class >> launchSmall [
+	^ self withMatrixTest5x5WithMagnifier: 0.5
+]
 
-	"The space represents the window"
-	space := BlSpace new.
-	space addChild: aGameElement.
-
-	"Calculate the extent of the game board for the first time, to set it to the window."
-	space pulse.
-	space extent: aGameElement extent.
-
-	"Show the window"
-	space show.
-	^ space
+{ #category : #'as yet unclassified' }
+MFieldElement class >> launchVeryLarge [
+	^ self withMatrixTest5x5WithMagnifier: 4
 ]
 
 { #category : #'as yet unclassified' }
 MFieldElement class >> openWithModel: aModel [
 
+	^ self openWithModel: aModel withMagnifier: 1
+]
+
+{ #category : #'as yet unclassified' }
+MFieldElement class >> openWithModel: aModel withMagnifier: aNumber [
+
 	| aGameElement space squareElement |
 	space := BlSpace new.
 	"Create the game model and the Bloc element."
 	aGameElement := self new
-		                game: aModel;
+		                game: (aModel magnifier: aNumber);
 		                yourself.
 
 	squareElement := BlElement new
@@ -80,12 +65,6 @@ MFieldElement class >> openWithModel: aModel [
 	^ space
 ]
 
-{ #category : #'as yet unclassified' }
-MFieldElement class >> openWithModel: aModel withMagnifier: aNumber [
-
-	^ self openWithModel: (aModel magnifier: aNumber)
-]
-
 { #category : #execution }
 MFieldElement class >> withMatrixForField [
 
@@ -104,6 +83,12 @@ MFieldElement class >> withMatrixTest5x5 [
 	^ self openWithModel: MField matrixTest5x5
 ]
 
+{ #category : #execution }
+MFieldElement class >> withMatrixTest5x5WithMagnifier: aNumber [
+
+	^ self openWithModel: MField matrixTest5x5 withMagnifier: aNumber 
+]
+
 { #category : #accessing }
 MFieldElement >> game [ 
 	^ game
@@ -113,6 +98,7 @@ MFieldElement >> game [
 MFieldElement >> game: aMField [
 
 	game := aMField.
+	self padding: (BlInsets all: 5 * game magnifier).
 	self layout columnCount: game width.
 	game matrix do: [ :aBox |
 		| boxElement |
@@ -124,7 +110,6 @@ MFieldElement >> game: aMField [
 MFieldElement >> initialize [
 
 	super initialize.
-	self padding: (BlInsets all: 20).
 	self background: (BlBackground paint: Color white darker).
 	self layout: (BlGridLayout horizontal cellSpacing: 5).
 	self constraintsDo: [ :aLayoutConstraints |
