@@ -56,9 +56,9 @@ MBoxElement >> click: anAnnouncement [
 			ifTrue: [ self background: Color transparent ] ].
 
 	self background: Color transparent.
-
 	self box isMineBox
-		ifTrue: [ text text: 'M' asRopedText ]
+		ifTrue: [
+			(self childNamed: 'text') text: 'M' asRopedText.]
 		ifFalse: [
 			| boxPosX boxPosY |
 			self box announcer unsubscribe: self.
@@ -66,12 +66,9 @@ MBoxElement >> click: anAnnouncement [
 
 			boxPosX := self box position x.
 			boxPosY := self box position y.
-			text text:
+			(self childNamed: 'text') text:
 				(self field mineCountAroundBoxAt: boxPosX at: boxPosY) asString
-					asRopedText ].
-
-	text text fontSize:  (self width min: self height).
-	text text fontName: 'Source Sans Pro'
+					asRopedText ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -145,9 +142,10 @@ MBoxElement >> flag [
 	aForm := PNGReadWriter formFromFileNamed: 'flag.png'.
 	pngElement background: (BlMatchExtentImageBackground image: aForm).
 
-	pngElement constraintsDo: [ :c |
+	pngElement constraintsDo: [ :c | 
 		c horizontal matchParent.
-		c vertical matchParent].
+		c vertical matchParent ].
+
 
 	self box isFlagged
 		ifFalse: [ self addChild: pngElement as: 'png' ]
@@ -159,20 +157,17 @@ MBoxElement >> initialize [
 
 	| posX posY |
 	super initialize.
+
+
 	self background: self backgroundPaint.
-	self geometry: (BlRoundedRectangleGeometry cornerRadius: 5).
-	self size: 150 @ 150.
-
-	self clipChildren: false.
-
-	text := BlTextElement new.
-	self addChild: text.
-	text text: '' asRopedText.
-	self layout: BlFrameLayout new.
-
-	text constraintsDo: [ :c |
-		c frame vertical alignCenter.
-		c frame horizontal alignCenter ].
+	self
+		geometry: (BlRoundedRectangleGeometry cornerRadius: 5);
+		clipChildren: false;
+		layout: BlFrameLayout new;
+		constraintsDo: [ :c |
+			c horizontal matchParent.
+			c vertical matchParent ].
+	self initializeText.
 
 	self addEventHandlerOn: BlMouseUpEvent do: [ :anEvent |
 		posX := anEvent currentTarget box position x.
@@ -181,5 +176,30 @@ MBoxElement >> initialize [
 			ifTrue: [ box announceFlag ]
 			ifFalse: [
 				self box isFlagged ifFalse: [
-					box clickIn: field at: posX at: posY ] ] ]
+					box clickIn: field at: posX at: posY ] ] ].
+
+	self addEventHandlerOn: BlElementExtentChangedEvent do: [
+		| fontSize |
+		fontSize := self width.
+		fontSize traceCr.
+		(self childNamed: 'text') text fontSize: fontSize ]
+]
+
+{ #category : #initialization }
+MBoxElement >> initializeText [
+
+	| textElement |
+	textElement := BlTextElement new.
+	textElement text: 'A' asRopedText.
+	textElement text fontName: 'Source Sans Pro'.
+	textElement text fontSize: 50.
+	textElement text
+		when: BlTextStringsInserted send: #textChanged to: textElement;
+		when: BlTextsDeleted send: #textChanged to: textElement;
+		when: BlTextAttributeAdded send: #textChanged to: textElement;
+		when: BlTextAttributesRemoved send: #textChanged to: textElement.
+	textElement constraintsDo: [ :c |
+		c frame vertical alignCenter.
+		c frame horizontal alignCenter ].
+	self addChild: textElement as: 'text'
 ]
