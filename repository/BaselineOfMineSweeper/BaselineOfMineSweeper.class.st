@@ -26,8 +26,11 @@ BaselineOfMineSweeper >> defineDependencies: spec [
 
 	spec
 		baseline: 'Bloc'
-		with: [
-		spec repository: 'github://pharo-graphics/Bloc:dev-1.0/src' ]
+		with: [ spec repository: 'github://pharo-graphics/Bloc:dev-1.0/src' ].
+
+	spec
+		baseline: 'Toplo'
+		with: [ spec repository: 'github://plantec/Toplo/src' ]
 ]
 
 { #category : #baseline }
@@ -42,7 +45,7 @@ BaselineOfMineSweeper >> defineGroups: spec [
 BaselineOfMineSweeper >> definePackages: spec [
 
 	^ spec
-		  package: 'MineSweeper'with: [ spec requires: #('Bloc') ];
+		  package: 'MineSweeper' with: [ spec requires: #( 'Bloc' 'Toplo' ) ];
 		  package: 'MineSweeper-Tests'
 		  with: [ spec requires: #( 'MineSweeper' ) ];
 		  package: 'MineSweeper-Seaside'

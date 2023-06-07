@@ -82,9 +82,9 @@ MBoxElement >> click: anAnnouncement [
 	self box isFlagged ifTrue: [
 		self field gameEnded
 			ifFalse: [ ^ self ]
-			ifTrue: [ self background: Color transparent ] ].
+			ifTrue: [ self background: Color white darker darker ] ].
 
-	self background: Color transparent.
+	self background: Color white darker darker.
 
 	self box isMineBox
 		ifTrue: [ text text: 'M' asRopedText ]

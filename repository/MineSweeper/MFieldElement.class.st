@@ -27,6 +27,96 @@ MFieldElement class >> launchVeryLarge [
 	^ self withMatrixTest5x5WithMagnifier: 4
 ]
 
+{ #category : #'instance creation' }
+MFieldElement class >> open [
+
+	| butSmall butRegular butLarge butVeryLarge space elt |
+	butSmall := ToButtonModel new label:
+		            (ToLabel text: ('Small' asRopedText fontSize: 50)) matchParent
+			            alignCenter.
+	butSmall whenClickedDo: [ self launchSmall ].
+	butRegular := ToButtonModel new label:
+		              (ToLabel text: ('Regular' asRopedText fontSize: 50))
+			              matchParent alignCenter.
+	butRegular whenClickedDo: [ self launchRegular ].
+	butLarge := ToButtonModel new label:
+		            (ToLabel text: ('Large' asRopedText fontSize: 50))
+			            matchParent alignCenter.
+	butLarge whenClickedDo: [ self launchLarge ].
+	butVeryLarge := ToButtonModel new label:
+		                (ToLabel text:
+			                 ('Very Large' asRopedText fontSize: 50))
+			                matchParent alignCenter.
+	butVeryLarge whenClickedDo: [ self launchVeryLarge ].
+
+	elt := BlElement new layout: (BlGridLayout horizontal cellSpacing: 5).
+	elt constraintsDo: [ :c |
+		c horizontal matchParent.
+		c vertical matchParent ].
+	elt layout columnCount: 2.
+
+	space := OBlSpace new.
+	elt addChild: (butSmall onWidget
+			 padding: (BlInsets all: 5);
+			 constraintsDo: [ :c |
+				 c horizontal matchParent.
+				 c vertical matchParent ]).
+	elt addChild: (butRegular onWidget
+			 padding: (BlInsets all: 5);
+			 constraintsDo: [ :c |
+				 c horizontal matchParent.
+				 c vertical matchParent ]).
+	elt addChild: (butLarge onWidget
+			 padding: (BlInsets all: 5);
+			 constraintsDo: [ :c |
+				 c horizontal matchParent.
+				 c vertical matchParent ]).
+	elt addChild: (butVeryLarge onWidget
+			 padding: (BlInsets all: 5);
+			 constraintsDo: [ :c |
+				 c horizontal matchParent.
+				 c vertical matchParent ]).
+
+	space root addChild: elt.
+	space extent: 300 @ 300.
+	space show
+]
+
+{ #category : #'instance creation' }
+MFieldElement class >> openWithMenuBar [
+
+	| space menu bar |
+	menu := ToMenu new.
+	menu label: (ToLabel text: 'Play').
+	menu icon:
+		(ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
+	menu addItem:
+		((ToButtonMenuItem new labelText: 'Small') whenClickedDo: [
+			 self launchSmall ]).
+	menu addItem:
+		((ToButtonMenuItem new labelText: 'Regular') whenClickedDo: [
+			 self launchRegular ]).
+	menu addItem:
+		((ToButtonMenuItem new labelText: 'Large') whenClickedDo: [
+			 self launchLarge ]).
+	menu addItem:
+		((ToButtonMenuItem new labelText: 'Very Large') whenClickedDo: [
+			 self launchVeryLarge ]).
+
+	bar := ToMenuBar new
+		       hMatchParent;
+		       vFitContent.
+	bar addMenu: menu.
+	bar background: Color veryVeryLightGray.
+	bar addFiller.
+	bar border: (BlBorder paint: Color veryDarkGray).
+	space := OBlSpace new.
+
+	space root addChild: bar.
+	space extent: 300 @ 300.
+	space show
+]
+
 { #category : #'as yet unclassified' }
 MFieldElement class >> openWithModel: aModel [
 
@@ -36,30 +126,20 @@ MFieldElement class >> openWithModel: aModel [
 { #category : #'as yet unclassified' }
 MFieldElement class >> openWithModel: aModel withMagnifier: aNumber [
 
-	| aGameElement space squareElement |
+	| aGameElement space |
 	space := BlSpace new.
 	"Create the game model and the Bloc element."
 	aGameElement := self new
 		                game: (aModel magnifier: aNumber);
 		                yourself.
 
-	squareElement := BlElement new
-		                 layout:
-			                 ((BlSquaredLayout on:
-					                   BlLinearLayout vertical alignCenter)
-				                  beTight;
-				                  yourself);
-		                 constraintsDo: [ :c |
-			                 c horizontal fitContent.
-			                 c vertical fitContent ];
-		                 addChild: aGameElement.
 	"The space represents the window"
 
-	space addChild: squareElement.
+	space addChild: aGameElement.
 
 	"Calculate the extent of the game board for the first time, to set it to the window."
 	space pulse.
-	space extent: squareElement extent.
+	space extent: aGameElement extent.
 	space resizable: false.
 	space show.
 	^ space
@@ -110,7 +190,7 @@ MFieldElement >> game: aMField [
 MFieldElement >> initialize [
 
 	super initialize.
-	self background: (BlBackground paint: Color white darker).
+	self background: (BlBackground paint: Color veryVeryLightGray).
 	self layout: (BlGridLayout horizontal cellSpacing: 5).
 	self constraintsDo: [ :aLayoutConstraints |
 		aLayoutConstraints horizontal fitContent.
