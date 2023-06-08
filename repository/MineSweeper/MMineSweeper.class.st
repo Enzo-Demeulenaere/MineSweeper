@@ -42,12 +42,13 @@ Have fun !'.
 		lab hMatchParent.
 		container := BlElement new
 			             background: Color lightGreen;
+			             padding: (BlInsets all: 15);
 			             layout: BlLinearLayout vertical;
 			             constraintsDo: [ :c |
 				             c horizontal fitContent.
 				             c vertical fitContent ].
 		container addChild: lab.
-		space := BlSpace new.
+		space := OBlSpace new.
 		space root
 			layout: BlFrameLayout new;
 			addChild: container;
